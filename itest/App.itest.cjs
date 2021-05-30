@@ -258,35 +258,35 @@ const submitAllLibs = async (page, prefix) => {
       failTest(e, "Join a sesh button not found", browser);
     });
 
-  // Explain Page
-  await itNavigate({
-    page: page,
-    madliberationid: "lead-a-seder-by-video-button",
-  });
+  // // Explain Page
+  // await itNavigate({
+  //   page: page,
+  //   madliberationid: "lead-a-seder-by-video-button",
+  // });
 
-  ////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////
 
-  await itWait({ page: page, madliberationid: "explain-page" });
-  await itClick({ page: page, madliberationid: "app-bar-menu-icon-button" });
-  await itNavigate({ page: page, madliberationid: "menu-about-link" });
+  // await itWait({ page: page, madliberationid: "explain-page" });
+  // await itClick({ page: page, madliberationid: "app-bar-menu-icon-button" });
+  // await itNavigate({ page: page, madliberationid: "menu-about-link" });
 
-  ////////////////////////////////////////////////////////////////////////////////
-  // Confirm the About page is displayed
-  await itWait({ page: page, madliberationid: "about-page" });
+  // ////////////////////////////////////////////////////////////////////////////////
+  // // Confirm the About page is displayed
+  // await itWait({ page: page, madliberationid: "about-page" });
 
-  // How to Play Page from menu button
-  await itClick({ page: page, madliberationid: "app-bar-menu-icon-button" });
-  await itNavigate({ page: page, madliberationid: "menu-how-to-play-link" });
+  // // How to Play Page from menu button
+  // await itClick({ page: page, madliberationid: "app-bar-menu-icon-button" });
+  // await itNavigate({ page: page, madliberationid: "menu-how-to-play-link" });
 
-  ////////////////////////////////////////////////////////////////////////////////
-  // Confirm the How to Play page is displayed
-  await itWait({ page: page, madliberationid: "how-to-play-page" });
-  // Confirm that the location has the expected hash
-  assertOnUrl({ page, expectedUrl: `${site}/#/how-to-play` });
+  // ////////////////////////////////////////////////////////////////////////////////
+  // // Confirm the How to Play page is displayed
+  // await itWait({ page: page, madliberationid: "how-to-play-page" });
+  // // Confirm that the location has the expected hash
+  // assertOnUrl({ page, expectedUrl: `${site}/#/how-to-play` });
 
-  // Go back to the Home Page
-  await itClick({ page: page, madliberationid: "app-bar-menu-icon-button" });
-  await itNavigate({ page: page, madliberationid: "menu-home-link" });
+  // // Go back to the Home Page
+  // await itClick({ page: page, madliberationid: "app-bar-menu-icon-button" });
+  // await itNavigate({ page: page, madliberationid: "menu-home-link" });
 
   ////////////////////////////////////////////////////////////////////////////////
 
@@ -526,92 +526,128 @@ const submitAllLibs = async (page, prefix) => {
 
   ////////////////////////////////////////////////////////////////////////////////
 
-  // Leader: get assignments, complete them, and submit
-  await itNavigate({ page: page, madliberationid: "leader-click-this-button" });
+  // // Leader: get assignments, complete them, and submit
+  // await itNavigate({ page: page, madliberationid: "leader-click-this-button" });
 
-  ////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////
 
-  // Make sure we're on the /play page
-  await itWait({ page: page, madliberationid: "lib-progress" });
-  const leaderAnswers = await submitAllLibs(page, "leader");
+  // // Make sure we're on the /play page
+  // await itWait({ page: page, madliberationid: "lib-progress" });
+  // const leaderAnswers = await submitAllLibs(page, "leader");
 
-  ////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////
 
-  // Player 2: get assignments, complete them, and submit
-  await itNavigate({
-    page: page2,
-    madliberationid: "player-click-this-button",
-  });
+  // // Player 2: get assignments, complete them, and submit
+  // await itNavigate({
+  //   page: page2,
+  //   madliberationid: "player-click-this-button",
+  // });
 
-  ////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////
 
-  // Make sure we're on the /play page
-  await itWait({ page: page2, madliberationid: "lib-progress" });
-  const p2Answers = await submitAllLibs(page2, "p2");
+  // // Make sure we're on the /play page
+  // await itWait({ page: page2, madliberationid: "lib-progress" });
+  // const p2Answers = await submitAllLibs(page2, "p2");
 
-  ////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////
 
-  // Player 2: not going to read the script
-  await itNavigate({
-    page: page2,
-    madliberationid: "use-someone-elses-device-button",
-  });
+  // // Player 2: not going to read the script
+  // await itNavigate({
+  //   page: page2,
+  //   madliberationid: "use-someone-elses-device-button",
+  // });
 
-  ////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////
 
-  await itWait({ page: page2, madliberationid: "done-not-reading-page" });
+  // await itWait({ page: page2, madliberationid: "done-not-reading-page" });
 
-  ////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////
 
-  // Leader: confirm both players' submissions appeared in the script
-  await itNavigate({ page: page, madliberationid: "i-want-the-script-button" });
+  // // Leader: confirm both players' submissions appeared in the script
+  // await itNavigate({ page: page, madliberationid: "i-want-the-script-button" });
 
-  ////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////
 
-  // Wait until the Read page shows, then click the button to get to the first
-  // reader, then get all the displayed libs
-  await itWait({ page: page, madliberationid: "pass-this-device" });
-  const libs = [];
-  // loop through script pages, adding to libs
-  while (true) {
-    await itWaitForAttribute(page, "mlnoncontent");
-    // Get the value of madliberationid
-    const id = await page
-      .$eval("[mlnoncontent]", (el) => el.getAttribute("madliberationid"))
-      .catch(async (e) => {
-        failTest(e, "failed to get madliberationid");
-      });
-    if (id == "pass-this-device") {
-      itClick({ page: page, madliberationid: "ready-to-read-button" });
-      itWait({ page: page, madliberationid: "page" });
-      const libTexts = await itGetGroupText(
-        page,
-        "page",
-        "madliberationanswer"
-      );
-      libTexts.forEach((t) => {
-        libs.push(t);
-      });
-      itClick({ page: page, madliberationid: "next-page-button" });
-      continue;
-    }
-    if (id == "seder-ended-successfully") {
-      break;
-    }
-    failTest("/read error", "failed to loop through script pages");
-  }
-  leaderAnswers.concat(p2Answers).forEach((a) => {
-    if (!libs.includes(a)) {
-      failTest("/read failure", `submitted lib not inserted in script: ${a}`);
-    }
-  });
-  if (leaderAnswers.length + p2Answers.length != libs.length) {
+  // // Wait until the Read page shows, then click the button to get to the first
+  // // reader, then get all the displayed libs
+  // await itWait({ page: page, madliberationid: "pass-this-device" });
+  // const libs = [];
+  // // loop through script pages, adding to libs
+  // while (true) {
+  //   await itWaitForAttribute(page, "mlnoncontent");
+  //   // Get the value of madliberationid
+  //   const id = await page
+  //     .$eval("[mlnoncontent]", (el) => el.getAttribute("madliberationid"))
+  //     .catch(async (e) => {
+  //       failTest(e, "failed to get madliberationid");
+  //     });
+  //   if (id == "pass-this-device") {
+  //     itClick({ page: page, madliberationid: "ready-to-read-button" });
+  //     itWait({ page: page, madliberationid: "page" });
+  //     const libTexts = await itGetGroupText(
+  //       page,
+  //       "page",
+  //       "madliberationanswer"
+  //     );
+  //     libTexts.forEach((t) => {
+  //       libs.push(t);
+  //     });
+  //     itClick({ page: page, madliberationid: "next-page-button" });
+  //     continue;
+  //   }
+  //   if (id == "seder-ended-successfully") {
+  //     break;
+  //   }
+  //   failTest("/read error", "failed to loop through script pages");
+  // }
+  // leaderAnswers.concat(p2Answers).forEach((a) => {
+  //   if (!libs.includes(a)) {
+  //     failTest("/read failure", `submitted lib not inserted in script: ${a}`);
+  //   }
+  // });
+  // if (leaderAnswers.length + p2Answers.length != libs.length) {
+  //   failTest(
+  //     "/read failure",
+  //     `submitted ${leaderAnswers.length + p2Answers.length} answers, ` +
+  //       `${libs.length} found in script`
+  //   );
+  // }
+
+  const cookiesBeforeLogout = await page2.cookies();
+  if (
+    cookiesBeforeLogout.filter(
+      (c) =>
+        c.name == "id_token" ||
+        c.name == "access_token" ||
+        c.name == "refresh_token"
+    ).length !== 3
+  ) {
     failTest(
-      "/read failure",
-      `submitted ${leaderAnswers.length + p2Answers.length} answers, ` +
-        `${libs.length} found in script`
+      "Wrong number of JWT cookies",
+      "Prior to logout, Page2 should have an id token, an access token," +
+        " and a refresh token in cookies"
+    );
+  }
+
+  await page2.goto(site);
+  await itClick({ page: page2, madliberationid: "logout-button" });
+  // After logout, there should be no cookies named id_token, access_token,
+  // or refresh_token
+  const cookiesAfterLogout = await page2.cookies();
+  if (
+    cookiesAfterLogout.filter(
+      (c) =>
+        c.name == "id_token" ||
+        c.name == "access_token" ||
+        c.name == "refresh_token"
+    ).length !== 0
+  ) {
+    failTest(
+      "Wrong number of JWT cookies",
+      "After logout, Page2 should not have an id token, access token," +
+        " or refresh token in cookies"
     );
   }
 
